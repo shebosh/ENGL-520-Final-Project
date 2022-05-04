@@ -1,0 +1,22 @@
+import requests
+r = requests.get('http://www.google.com/')
+print(r.text)
+import subprocess
+import json
+r = requests.post('http://localhost:9000/?properties={"annotators":"tokenize,ssplit,pos,depparse","outputFormat":"json"}', data = "Dad comes home early")
+print(r.text)
+
+data = json.loads(r.text)
+
+with open('output.txt', 'w') as f:
+  f.write(r.text)
+
+# print(data["sentences"][0]["tokens"][1]["pos"])
+
+
+if data["sentences"][0]["tokens"][1]["pos"] == "VBZ":
+  print("Present!")
+if data["sentences"][0]["tokens"][1]["pos"] == "VBD":
+  print("Past!")
+if data["sentences"][0]["tokens"][1]["pos"] != "VBZ" or "VBD":
+  print("Try another sentence!")
